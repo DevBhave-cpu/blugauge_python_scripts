@@ -1,5 +1,4 @@
 import socket
-import json
 import Logger
 import threading
 import time
@@ -22,8 +21,8 @@ def upload_data(attr, token):
 
         angle = data["angle"]
         battery_alarm = data["battery_alarm"]
-        latitude = data["latitude"]
-        longitude = data["longitude"]
+        # latitude = data["latitude"]
+        # longitude = data["longitude"]
         rsrp = data["rsrp"]
         temperature = data["temperature"]
         tilt_alarm = data["tilt_alarm"]
@@ -33,10 +32,11 @@ def upload_data(attr, token):
         full_alarm = data["full_alarm"]
         fire_alarm = data["fire_alarm"]
         frame_counter = data["frame_counter"]
+        bin_id = data[""]
 
         helper = DBHelper()
-        helper.update()
-        helper.insert()
+        # helper.update()
+        # helper.insert()
 
         print("try to upload data ")
         log.logger.debug("upload_data: close socket in upload_data")
@@ -106,6 +106,7 @@ def handle_client(client, address):
 
 
 if __name__ == "__main__":
+
     try:
         attr_result = ""
         token_deviceid = ""
