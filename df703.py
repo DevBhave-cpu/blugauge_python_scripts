@@ -24,9 +24,9 @@ class DF703(object):
             attr_result = ""
             token_id = ""
 
-            if (data_len == len(req_data) / 2):
-                if (data_type == "01" or data_type == "02"):
-                    if (data_len == 34):
+            if data_len == len(req_data) / 2:
+                if data_type == "01" or data_type == "02":
+                    if data_len == 34:
                         token_id = req_data[50:66]
                         data_height = int(req_data[10:14], 16)
                         data_temperature = int(req_data[16:18], 16)
@@ -43,6 +43,7 @@ class DF703(object):
                         time_stamp = int(req_data[42:50], 16)
                         # print("rsrp is "+str(data_rsrp))
                         attribute = {
+
                             "height": data_height,
                             "temperature": data_temperature,
                             "full_alarm": data_full_alarm,

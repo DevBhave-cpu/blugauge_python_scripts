@@ -4,7 +4,7 @@ import threading
 import time
 
 import df703
-import DBHelper
+from DBHelper import DBHelper
 
 port_number = 9000
 max_clients = 10
@@ -19,10 +19,9 @@ def upload_data(attr, token):
         data = attr
         print(data)
 
+        bin_id = token
         angle = data["angle"]
         battery_alarm = data["battery_alarm"]
-        # latitude = data["latitude"]
-        # longitude = data["longitude"]
         rsrp = data["rsrp"]
         temperature = data["temperature"]
         tilt_alarm = data["tilt_alarm"]
@@ -32,11 +31,12 @@ def upload_data(attr, token):
         full_alarm = data["full_alarm"]
         fire_alarm = data["fire_alarm"]
         frame_counter = data["frame_counter"]
-        bin_id = data[""]
 
-        helper = DBHelper()
-        # helper.update()
-        # helper.insert()
+        db = DBHelper()
+        db.insert(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt,
+                  last_updated, height, fire_alarm, full_alarm, frame_counter)
+
+        db.update(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm, bin_id)
 
         print("try to upload data ")
         log.logger.debug("upload_data: close socket in upload_data")

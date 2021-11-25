@@ -32,29 +32,26 @@ class DBHelper:
         print('created tables or updated tables')
 
     # Create
-    def insert(self, bin_id, angle, battery_alarm, latitude, longitude, rsrp, temperature, tilt_alarm, volt,
+    def insert(self, bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt,
                last_updated, height, fire_alarm, full_alarm, frame_counter):
         query = "Insert into bins_history(bin_id, angle, battery_alarm, latitude, longitude, rsrp, temperature ," \
                 "tilt_alarm, volt, last_updated, height, 'fire_alarm', 'full_alarm', 'frame_counter') Values ('{}'," \
-                "'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');".format(
-            bin_id, angle, battery_alarm, latitude, longitude, rsrp, temperature, tilt_alarm, volt, last_updated,
-            height, fire_alarm, full_alarm, frame_counter)
+                "'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');".format(
+            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, full_alarm, frame_counter)
         cur = self.con.cursor()
         cur.execute(query)
         self.con.commit()
         print('successfully')
 
     # Update
-    def update(self, bin_id, angle, battery_alarm, capacity, color, latitude, longitude, place, rsrp, temperature,
-               sim_number,
-               tilt_alarm, volt, last_updated, height, total_height, fire_alarm, frame_counter, full_alarm, user_name):
+    def update(self, bin_id, angle, battery_alarm, rsrp, temperature,
+               tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm):
         query = "insert into bins(bin_id, angle, battery_alarm, capacity, color, latitude, longitude, place, rsrp, " \
                 "temperature, sim_number, tilt_alarm, volt, last_updated, height, total_height, fire_alarm, " \
                 "frame_counter, full_alarm, user_name) values ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'," \
-                "'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(
-            bin_id, angle, battery_alarm, capacity, color, latitude, longitude, place, rsrp, temperature, sim_number,
-            tilt_alarm, volt, last_updated, height, total_height, fire_alarm, frame_counter, full_alarm, user_name
-        )
+                "'{}','{}') where bin_id = '{}' ".format(
+            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm, bin_id)
+
         print(query)
         cur = self.con.cursor()
         cur.execute(query)
