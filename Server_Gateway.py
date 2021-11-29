@@ -33,10 +33,11 @@ def upload_data(attr, token):
         frame_counter = data["frame_counter"]
 
         db = DBHelper()
-        db.insert(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt,
-                  last_updated, height, fire_alarm, full_alarm, frame_counter)
+        db.insert(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm,
+                  full_alarm, frame_counter)
 
-        db.update(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm)
+        db.update(bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm,
+                  frame_counter, full_alarm)
 
         print("try to upload data ")
         log.logger.debug("upload_data: close socket in upload_data")

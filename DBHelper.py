@@ -10,49 +10,36 @@ class DBHelper:
                                      database='Database_Maiden',
                                      auth_plugin='mysql_native_password')
 
-        query = 'CREATE TABLE IF NOT EXISTS `bins` (`id` INT NOT NULL AUTO_INCREMENT,`angle` INT NOT NULL,' \
-                '`battery_alarm` INT NOT NULL,`capacity` INT NOT NULL,`color` VARCHAR(25) NOT NULL,`latitude` ' \
-                'DECIMAL(4,2) NOT NULL,`longitude` DECIMAL(4,2) NOT NULL,`place` VARCHAR(45) NOT NULL,`rsrp` INT NOT ' \
-                'NULL,`temperature` INT NOT NULL,`sim_number` VARCHAR(45) NOT NULL,`tilt_alarm` INT NOT NULL,' \
-                '`volt` DECIMAL(2,1) NOT NULL,`last_updated` VARCHAR(45) NOT NULL,`height` INT NOT NULL,' \
-                '`total_height` INT NOT NULL,`bin_id` VARCHAR(25) NOT NULL,`fire_alarm` INT NOT NULL,`full_alarm` INT ' \
-                'NOT NULL,`frame_counter` INT NOT NULL,`user_name` VARCHAR(25) NOT NULL,PRIMARY KEY (`id`)) ' \
-                'ENGINE=InnoDB DEFAULT CHARSET=utf8; '
-
-        query1 = 'CREATE TABLE IF NOT EXISTS `bins_history` (`id` INT NOT NULL AUTO_INCREMENT,`angle` INT NOT NULL,' \
-                 '`battery_alarm` INT NOT NULL,`bin_id` VARCHAR(25) NOT NULL,`fire_alarm` INT NOT NULL,' \
-                 '`frame_counter` INT NOT NULL,`full_alarm` INT NOT NULL,`height` INT NOT NULL,`rsrp` INT NOT NULL,' \
-                 '`temperature` INT NOT NULL,`tilt_alarm` INT NOT NULL,`last_updated` TIMESTAMP(6) NOT NULL,' \
-                 '`volt` DECIMAL(2,1) NOT NULL,`latitude` DECIMAL(4,2) NOT NULL,`longitude` DECIMAL(4,2) NOT NULL,' \
-                 'PRIMARY KEY (`id`)) Engine=InnoDB DEFAULT CHARSET=utf8 '
-
-        cur = self.con.cursor()
-        cur.execute(query)
-        cur.execute(query1)
-        print('created tables or updated tables')
-
     # Create
     def insert(self, bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt,
                last_updated, height, fire_alarm, full_alarm, frame_counter):
-        query = "Insert into bins_history(bin_id, angle, battery_alarm, latitude, longitude, rsrp, temperature ," \
-                "tilt_alarm, volt, last_updated, height, 'fire_alarm', 'full_alarm', 'frame_counter') Values ('{}'," \
-                "'{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}');".format(
-            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, full_alarm, frame_counter)
+        query = "Insert into bins_history( bin_id, angle, battery_alarm, rsrp, temperature , tilt_alarm, volt, " \
+                "last_updated, height, fire_alarm, full_alarm, frame_counter) Values ('{}', '{}','{}','{}'," \
+                "'{}','{}','{}','{}','{}','{}','{}','{}');".format(
+            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm,
+            full_alarm, frame_counter)
         cur = self.con.cursor()
         cur.execute(query)
         self.con.commit()
-        print('successfully')
+        print('successfully inserted values into bins history')
 
     # Update
     def update(self, bin_id, angle, battery_alarm, rsrp, temperature,
                tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm):
-        query = "insert into bins(bin_id, angle, battery_alarm, capacity, color, latitude, longitude, place, rsrp, " \
-                "temperature, sim_number, tilt_alarm, volt, last_updated, height, total_height, fire_alarm, " \
-                "frame_counter, full_alarm, user_name) values ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'," \
-                "'{}','{}') where bin_id = '{}' ".format(
-            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm, frame_counter, full_alarm, bin_id)
 
-        print(query)
+        query = "select id from bins where bin_id = '{}'".format(bin_id)
+
+        query1 = "update bins set bin_id = '{}', angle = '{}', battery_alarm = '{}', rsrp = '{}', temperature = '{}', " \
+                 "tilt_alarm = '{}', volt = '{}', last_updated = '{}', height = '{}', fire_alarm = '{}', frame_counter " \
+                 "= '{}', full_alarm = '{}' where bin_id = '{}'".format(
+            bin_id, angle, battery_alarm, rsrp, temperature, tilt_alarm, volt, last_updated, height, fire_alarm,
+            frame_counter, full_alarm, bin_id)
+
         cur = self.con.cursor()
-        cur.execute(query)
+        cur.execute(query1)
         self.con.commit()
+        print('successfully updated values into bins')
+
+# helper = DBHelper()
+# helper.insert('86169873223', '0', '0', '987', '27', '0', '3.6', '1970-01-01 00:00:01', '123', '0', '0', '0')
+# helper.update('86169873223', '1', '1', '987', '27', '1', '4.5', '1970-01-01 00:00:01', '123', '1', '1', '1')
